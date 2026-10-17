@@ -177,17 +177,13 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
             <Globe2 size={18} />
             <span>Par pays</span>
           </a>
-          <a className="nav-item" href="#methodology">
-            <Database size={18} />
-            <span>Les données</span>
-          </a>
         </nav>
 
         <div className="sidebar-note">
           <div className="note-icon"><ShieldCheck size={17} /></div>
           <strong>Des données ouvertes.</strong>
           <p>Explorer les demandes des autorités, rapport après rapport.</p>
-          <a href="#methodology">Notre méthode <ArrowRight size={14} /></a>
+          <a href="/methodologie">Notre méthode <ArrowRight size={14} /></a>
         </div>
 
         <div className="sidebar-footer">
@@ -199,7 +195,6 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
       <div className="main-area" id="overview">
         <header className="topbar">
           <div className="breadcrumb"><span>Explorateur</span><span>/</span><strong>Microsoft</strong></div>
-          <div className="topbar-right"><span className="live-dot" /> Jeu de données chargé</div>
         </header>
 
         <div className="page-content">
@@ -211,7 +206,6 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
                 Comment les autorités demandent-elles l’accès aux données des utilisateurs ?
               </p>
             </div>
-            <div className="report-badge"><FileText size={15} /> Rapport Microsoft LERR</div>
           </section>
 
           <section className="filter-bar" aria-label="Filtres du tableau de bord">
@@ -349,7 +343,6 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
                 <div className="empty-state">Aucune donnée disponible pour cette sélection.</div>
               )}
             </div>
-            <div className="chart-caption"><span className="caption-mark">i</span> Les doublons de rapports identiques sont retirés avant le calcul.</div>
           </section>
 
           <section className="lower-grid">
@@ -396,9 +389,6 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
                   Les totaux sont recalculés à partir des pays, sans additionner les lignes de
                   synthèse.
                 </p>
-                <div className="insight-divider" />
-                <div className="source-line"><span className="source-check"><ShieldCheck size={14} /></span><span>Source locale normalisée</span></div>
-                <div className="source-file">{periodReports.length > 0 ? `${periodReports.length} lignes · ${sourceCount} fichier${sourceCount > 1 ? "s" : ""} source` : "Aucune source pour cette période"}</div>
                 <a
                   className="insight-link"
                   href="https://www.microsoft.com/en-us/corporate-responsibility/lerr"
@@ -412,7 +402,9 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
           </section>
 
           <footer className="page-footer">
-            <span>Transpa <span className="footer-dot">·</span> Explorer les données de transparence</span>
+            <a href="https://www.microsoft.com/en-us/corporate-responsibility/lerr" target="_blank" rel="noreferrer">
+              Transpa <span className="footer-dot">·</span> Explorer les données de transparence
+            </a>
             <span>Données Microsoft LERR <span className="footer-dot">·</span> 2013—2025</span>
           </footer>
         </div>
