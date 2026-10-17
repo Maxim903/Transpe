@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import SiteFooter from "./components/site-footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Transpa — Transparence des demandes",
+  title: "TranspaTech — Transparence des demandes",
   description:
-    "Explorez les demandes d'accès aux données adressées à Microsoft par les autorités.",
+    "Explorez les rapports de transparence des grands éditeurs et les demandes des autorités.",
 };
 
 export default function RootLayout({
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        {children}
+        <SiteFooter />
+      </body>
     </html>
   );
 }

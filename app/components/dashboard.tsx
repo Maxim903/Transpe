@@ -14,6 +14,11 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import Brand from "./brand";
+import EditorSelect from "./editor-select";
+import ReportDownloadButton from "./report-download-button";
+import type { Editor } from "../lib/editors";
+import type { ReportRow } from "../lib/reports";
 import {
   Area,
   AreaChart,
@@ -23,7 +28,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { ReportRow } from "../page";
 
 type Metric = "requests" | "accounts";
 
@@ -68,7 +72,13 @@ function SelectField({
   );
 }
 
-export default function Dashboard({ reports }: { reports: ReportRow[] }) {
+export default function Dashboard({
+  editor,
+  reports,
+}: {
+  editor: Editor;
+  reports: ReportRow[];
+}) {
   const services = useMemo(
     () => [...new Set(reports.map((report) => report.service))].sort((a, b) => a.localeCompare(b, "fr")),
     [reports],
@@ -160,12 +170,7 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
   return (
     <main className="app-shell">
       <aside className="sidebar">
-        <a className="brand" href="#overview" aria-label="Transpa, accueil">
-          <span className="brand-mark">
-            <Activity size={20} strokeWidth={2.5} />
-          </span>
-          <span>transpa<span className="brand-dot">.</span></span>
-        </a>
+        <Brand className="brand" href="#overview" />
 
         <div className="sidebar-section-label">ESPACE DE TRAVAIL</div>
         <nav className="side-nav" aria-label="Navigation principale">
@@ -187,27 +192,51 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
         </div>
 
         <div className="sidebar-footer">
-          <span className="status-dot" />
-          Données Microsoft LERR
+          <span className={`status-dot${editor.hasData ? "" : " pending"}`} />
+          {editor.hasData ? "Données Microsoft LERR" : "Données à venir"}
         </div>
       </aside>
 
       <div className="main-area" id="overview">
         <header className="topbar">
-          <div className="breadcrumb"><span>Explorateur</span><span>/</span><strong>Microsoft</strong></div>
+          <div className="breadcrumb">
+            <span>Explorateur</span>
+            <span>/</span>
+            <EditorSelect value={editor.slug} />
+          </div>
         </header>
 
         <div className="page-content">
           <section className="page-heading">
             <div>
               <div className="eyebrow"><Landmark size={14} /> RAPPORTS DE TRANSPARENCE</div>
-              <h1>Demandes d’accès légal</h1>
+              <h1>{reports.length > 0 ? "Demandes d’accès légal" : `Tableau de bord — ${editor.name}`}</h1>
               <p className="page-intro">
-                Comment les autorités demandent-elles l’accès aux données des utilisateurs ?
+                {reports.length > 0
+                  ? "Comment les autorités demandent-elles l’accès aux données des utilisateurs ?"
+                  : `Suivez les rapports de transparence publiés par ${editor.name}.`}
               </p>
             </div>
+            {reports.length > 0 && (
+              <ReportDownloadButton
+                report={{
+                  editor: editor.name,
+                  period: formatPeriod(selectedPeriod),
+                  requestType: service,
+                  country,
+                  metricLabel,
+                  total: currentTotal,
+                  accounts: visiblePeriodReports.reduce((sum, report) => sum + report.accounts, 0),
+                  countryCount: activeCountryCount,
+                  history: trend.map(({ period, value }) => ({ period, value })),
+                  countries: topCountries,
+                }}
+              />
+            )}
           </section>
 
+          {reports.length > 0 ? (
+            <>
           <section className="filter-bar" aria-label="Filtres du tableau de bord">
             <div className="filter-heading">
               <span className="filter-icon"><Activity size={16} /></span>
@@ -374,7 +403,7 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
                   <div className="empty-state">Aucune donnée disponible pour cette période.</div>
                 )}
               </div>
-              <div className="country-foot"><span>Répartition des {metricLabel.toLocaleLowerCase("fr")}</span><ArrowRight size={15} /></div>
+              <div className="country-foot"><span>Répartition des {metricLabel.toLocaleLowerCase("fr")}</span></div>
             </article>
 
             <article className="insight-card" id="methodology">
@@ -400,12 +429,22 @@ export default function Dashboard({ reports }: { reports: ReportRow[] }) {
               </div>
             </article>
           </section>
+            </>
+          ) : (
+            <section className="data-unavailable chart-card" aria-labelledby="data-unavailable-title">
+              <span className="data-unavailable-icon"><Database size={21} /></span>
+              <div className="section-kicker">JEU DE DONNÉES NON DISPONIBLE</div>
+              <h2 id="data-unavailable-title">Les données de {editor.name} ne sont pas encore intégrées</h2>
+              <p>
+                Cette page est prête à accueillir ses rapports de transparence. Les graphiques
+                et indicateurs apparaîtront dès qu’un jeu de données vérifié sera ajouté.
+              </p>
+            </section>
+          )}
 
           <footer className="page-footer">
-            <a href="https://www.microsoft.com/en-us/corporate-responsibility/lerr" target="_blank" rel="noreferrer">
-              Transpa <span className="footer-dot">·</span> Explorer les données de transparence
-            </a>
-            <span>Données Microsoft LERR <span className="footer-dot">·</span> 2013—2025</span>
+            <span>TranspaTech <span className="footer-dot">·</span> Explorer les données de transparence</span>
+            <span>{editor.hasData ? "Données Microsoft LERR" : `En attente des données ${editor.name}`}</span>
           </footer>
         </div>
       </div>

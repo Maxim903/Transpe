@@ -1,6 +1,20 @@
-# Transpa
+# TranspaTech
 
-Tableau de bord Next.js pour explorer les rapports Microsoft LERR à l'aide de Recharts.
+Tableau de bord Next.js pour explorer les rapports de transparence des GAFAM à l'aide de Recharts.
+
+Les pages Amazon, Apple, Google, Meta et Microsoft sont accessibles depuis le sélecteur de
+l’éditeur dans le fil d’Ariane. Seules les données Microsoft LERR sont actuellement intégrées ;
+les autres pages indiquent explicitement que leurs données ne sont pas encore disponibles.
+Depuis le tableau de bord Microsoft, un rapport PDF personnalisé peut être téléchargé après
+avoir rempli le formulaire. Les coordonnées saisies restent dans le navigateur et ne sont
+pas conservées.
+
+Le pied de page commun donne accès aux mentions légales, à la politique de confidentialité,
+aux informations sur les cookies et aux conditions d’utilisation et sources. Pour publier
+une adresse de contact sans exposer une adresse personnelle, configurez `LEGAL_CONTACT_EMAIL`
+comme variable d’environnement dans Vercel puis redéployez. La page des mentions légales
+explique également les vérifications nécessaires pour un éditeur particulier souhaitant
+préserver son anonymat.
 
 ## Lancer le site
 
