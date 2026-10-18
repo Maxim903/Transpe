@@ -1,0 +1,9 @@
+Country,Total_Requests,Accounts_Specified,Service_Or_Type,Source_File,Year_Period
+United States,22,31,Content_Data,SIMULATION-Meta-CLOUD-Act-2024-H1.csv,2024-H1
+Brazil,8,11,Content_Data,SIMULATION-Meta-CLOUD-Act-2024-H1.csv,2024-H1
+United States,18,25,Subscriber_Information,SIMULATION-Meta-CLOUD-Act-2024-H1.csv,2024-H1
+Brazil,6,8,Subscriber_Information,SIMULATION-Meta-CLOUD-Act-2024-H1.csv,2024-H1
+United States,27,38,Content_Data,SIMULATION-Meta-CLOUD-Act-2024-H2.csv,2024-H2
+Brazil,10,14,Content_Data,SIMULATION-Meta-CLOUD-Act-2024-H2.csv,2024-H2
+United States,23,32,Subscriber_Information,SIMULATION-Meta-CLOUD-Act-2024-H2.csv,2024-H2
+Brazil,8,11,Subscriber_Information,SIMULATION-Meta-CLOUD-Act-2024-H2.csv,2024-H2

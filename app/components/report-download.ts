@@ -2,6 +2,8 @@ import { jsPDF } from "jspdf";
 
 export type DownloadReportData = {
   editor: string;
+  isSimulation?: boolean;
+  isCloudAct?: boolean;
   recipientName: string;
   recipientEmail: string;
   organization: string;
@@ -153,6 +155,8 @@ function drawFooter(
   pageHeight: number,
   pageNumber: number,
   pageCount: number,
+  isSimulation: boolean,
+  isCloudAct: boolean,
 ): void {
   const left = 16;
   const right = pageWidth - 16;
@@ -162,7 +166,15 @@ function drawFooter(
   pdf.setFont("helvetica", "normal");
   pdf.setFontSize(7);
   pdf.setTextColor(...colors.muted);
-  pdf.text("Source: rapports de transparence Microsoft LERR", left, pageHeight - 8);
+  pdf.text(
+    isCloudAct
+      ? "CLOUD Act - simulation: donnees fictives, non issues de rapports reels"
+      : isSimulation
+        ? "SIMULATION: donnees fictives, non issues de rapports reels"
+        : "Source: rapports de transparence Microsoft LERR",
+    left,
+    pageHeight - 8,
+  );
   pdf.setFont("helvetica", "bold");
   pdf.setTextColor(...colors.blue);
   pdf.text("TRANSPATECH", pageWidth / 2, pageHeight - 8, { align: "center" });
@@ -426,13 +438,29 @@ export function downloadTransparencyReport(data: DownloadReportData): void {
   );
 
   drawTrendChart(pdf, data, pageWidth, pageHeight);
-  drawFooter(pdf, pageWidth, pageHeight, 1, pageCount);
+  drawFooter(
+    pdf,
+    pageWidth,
+    pageHeight,
+    1,
+    pageCount,
+    Boolean(data.isSimulation),
+    Boolean(data.isCloudAct),
+  );
 
   if (data.countries.length > 0) {
     pdf.addPage();
     drawHeader(pdf, pageWidth, "Repartition par pays", data.period, true);
     drawCountryChart(pdf, data, pageWidth);
-    drawFooter(pdf, pageWidth, pageHeight, 2, pageCount);
+    drawFooter(
+      pdf,
+      pageWidth,
+      pageHeight,
+      2,
+      pageCount,
+      Boolean(data.isSimulation),
+      Boolean(data.isCloudAct),
+    );
   }
 
   const filename = `rapport-${data.editor}-${data.period}`

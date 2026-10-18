@@ -1,0 +1,9 @@
+Country,Total_Requests,Accounts_Specified,Service_Or_Type,Source_File,Year_Period
+United States,17,22,Content_Data,SIMULATION-Amazon-CLOUD-Act-2024-H1.csv,2024-H1
+France,4,5,Content_Data,SIMULATION-Amazon-CLOUD-Act-2024-H1.csv,2024-H1
+United States,13,18,Subscriber_Information,SIMULATION-Amazon-CLOUD-Act-2024-H1.csv,2024-H1
+France,3,4,Subscriber_Information,SIMULATION-Amazon-CLOUD-Act-2024-H1.csv,2024-H1
+United States,21,27,Content_Data,SIMULATION-Amazon-CLOUD-Act-2024-H2.csv,2024-H2
+France,6,8,Content_Data,SIMULATION-Amazon-CLOUD-Act-2024-H2.csv,2024-H2
+United States,16,22,Subscriber_Information,SIMULATION-Amazon-CLOUD-Act-2024-H2.csv,2024-H2
+France,5,6,Subscriber_Information,SIMULATION-Amazon-CLOUD-Act-2024-H2.csv,2024-H2

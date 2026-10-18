@@ -1,0 +1,9 @@
+Country,Total_Requests,Accounts_Specified,Service_Or_Type,Source_File,Year_Period
+United States,184,236,Criminal,SIMULATION-Amazon-2024-H1.xlsx,2024-H1
+Canada,31,42,Criminal,SIMULATION-Amazon-2024-H1.xlsx,2024-H1
+United States,27,35,Emergency,SIMULATION-Amazon-2024-H1.xlsx,2024-H1
+Canada,8,10,Emergency,SIMULATION-Amazon-2024-H1.xlsx,2024-H1
+United States,201,258,Criminal,SIMULATION-Amazon-2024-H2.xlsx,2024-H2
+Canada,36,49,Criminal,SIMULATION-Amazon-2024-H2.xlsx,2024-H2
+United States,32,41,Emergency,SIMULATION-Amazon-2024-H2.xlsx,2024-H2
+Canada,11,14,Emergency,SIMULATION-Amazon-2024-H2.xlsx,2024-H2

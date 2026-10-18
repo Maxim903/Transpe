@@ -4,15 +4,22 @@ import {
   Activity,
   ArrowDownRight,
   ArrowRight,
+  ArrowLeftRight,
   ArrowUpRight,
   BarChart3,
+  BookOpenText,
+  AlertTriangle,
   ChevronDown,
+  Cloud,
   Database,
   FileText,
   Globe2,
   Landmark,
+  PanelLeftClose,
+  PanelLeftOpen,
   ShieldCheck,
 } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import Brand from "./brand";
 import EditorSelect from "./editor-select";
@@ -75,9 +82,11 @@ function SelectField({
 export default function Dashboard({
   editor,
   reports,
+  isCloudAct = false,
 }: {
   editor: Editor;
   reports: ReportRow[];
+  isCloudAct?: boolean;
 }) {
   const services = useMemo(
     () => [...new Set(reports.map((report) => report.service))].sort((a, b) => a.localeCompare(b, "fr")),
@@ -89,6 +98,10 @@ export default function Dashboard({
   const [metric, setMetric] = useState<Metric>("requests");
   const [country, setCountry] = useState("Tous les pays");
   const [periodChoice, setPeriodChoice] = useState("");
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const isSimulation = isCloudAct
+    ? editor.cloudActStatus === "simulation"
+    : editor.dataStatus === "simulation";
   const metricLabel = metric === "requests" ? "Demandes" : "Comptes spécifiés";
 
   const serviceReports = useMemo(
@@ -169,19 +182,58 @@ export default function Dashboard({
 
   return (
     <main className="app-shell">
-      <aside className="sidebar">
-        <Brand className="brand" href="#overview" />
+      <aside
+        className={`sidebar${isSidebarCollapsed ? " collapsed" : ""}`}
+        id="primary-sidebar"
+      >
+        <div className="sidebar-top">
+          <Brand className="brand" href="#overview" />
+          <button
+            className="sidebar-toggle"
+            type="button"
+            aria-label={isSidebarCollapsed ? "Déplier la barre latérale" : "Replier la barre latérale"}
+            aria-controls="primary-sidebar"
+            aria-expanded={!isSidebarCollapsed}
+            title={isSidebarCollapsed ? "Déplier la barre latérale" : "Replier la barre latérale"}
+            onClick={() => setIsSidebarCollapsed((collapsed) => !collapsed)}
+          >
+            {isSidebarCollapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
+          </button>
+        </div>
 
         <div className="sidebar-section-label">ESPACE DE TRAVAIL</div>
         <nav className="side-nav" aria-label="Navigation principale">
-          <a className="nav-item active" href="#overview">
+          <a
+            className={`nav-item${isCloudAct ? "" : " active"}`}
+            href={isCloudAct ? `/editeurs/${editor.slug}` : "#overview"}
+            aria-label="Vue d’ensemble"
+            title="Vue d’ensemble"
+          >
             <BarChart3 size={18} />
             <span>Vue d’ensemble</span>
           </a>
-          <a className="nav-item" href="#countries">
+          <a
+            className="nav-item"
+            href={isCloudAct ? `/editeurs/${editor.slug}#countries` : "#countries"}
+            aria-label="Par pays"
+            title="Par pays"
+          >
             <Globe2 size={18} />
             <span>Par pays</span>
           </a>
+          <Link
+            className={`nav-item${isCloudAct ? " active" : ""}`}
+            href={`/cloud-act?editor=${editor.slug}`}
+            aria-label="CLOUD Act"
+            title="CLOUD Act"
+          >
+            <Cloud size={18} />
+            <span>CLOUD Act</span>
+          </Link>
+          <Link className="nav-item" href="/comparatif" aria-label="Comparatif" title="Comparatif">
+            <ArrowLeftRight size={18} />
+            <span>Comparatif</span>
+          </Link>
         </nav>
 
         <div className="sidebar-note">
@@ -192,48 +244,84 @@ export default function Dashboard({
         </div>
 
         <div className="sidebar-footer">
-          <span className={`status-dot${editor.hasData ? "" : " pending"}`} />
-          {editor.hasData ? "Données Microsoft LERR" : "Données à venir"}
+          <span className={`status-dot${isCloudAct ? (isSimulation ? " pending" : "") : editor.hasData && !isSimulation ? "" : " pending"}`} />
+          {isCloudAct
+            ? `${isSimulation ? "Simulation " : ""}CLOUD Act · ${editor.name}`
+            : isSimulation
+              ? `Simulation ${editor.name}`
+              : "Données Microsoft LERR"}
         </div>
       </aside>
 
-      <div className="main-area" id="overview">
+      <div className={`main-area${isSidebarCollapsed ? " sidebar-collapsed" : ""}`} id="overview">
         <header className="topbar">
           <div className="breadcrumb">
             <span>Explorateur</span>
             <span>/</span>
-            <EditorSelect value={editor.slug} />
+            <EditorSelect value={editor.slug} context={isCloudAct ? "cloudAct" : "editor"} />
           </div>
         </header>
 
         <div className="page-content">
           <section className="page-heading">
             <div>
-              <div className="eyebrow"><Landmark size={14} /> RAPPORTS DE TRANSPARENCE</div>
-              <h1>{reports.length > 0 ? "Demandes d’accès légal" : `Tableau de bord — ${editor.name}`}</h1>
+              <div className="eyebrow">
+                {isCloudAct ? <Cloud size={14} /> : <Landmark size={14} />}
+                {isCloudAct ? "RAPPORTS DE TRANSPARENCE · CLOUD ACT" : "RAPPORTS DE TRANSPARENCE"}
+              </div>
+              <h1>
+                {isCloudAct
+                  ? "Demandes associées au CLOUD Act"
+                  : reports.length > 0
+                    ? "Demandes d’accès légal"
+                    : `Tableau de bord — ${editor.name}`}
+              </h1>
               <p className="page-intro">
-                {reports.length > 0
-                  ? "Comment les autorités demandent-elles l’accès aux données des utilisateurs ?"
-                  : `Suivez les rapports de transparence publiés par ${editor.name}.`}
+                {isCloudAct
+                  ? `Explorer par période, type et pays les données CLOUD Act de ${editor.name}${isSimulation ? " (simulation)" : ""}.`
+                  : reports.length > 0
+                    ? "Comment les autorités demandent-elles l’accès aux données des utilisateurs ?"
+                    : `Suivez les rapports de transparence publiés par ${editor.name}.`}
               </p>
             </div>
-            {reports.length > 0 && (
-              <ReportDownloadButton
-                report={{
-                  editor: editor.name,
-                  period: formatPeriod(selectedPeriod),
-                  requestType: service,
-                  country,
-                  metricLabel,
-                  total: currentTotal,
-                  accounts: visiblePeriodReports.reduce((sum, report) => sum + report.accounts, 0),
-                  countryCount: activeCountryCount,
-                  history: trend.map(({ period, value }) => ({ period, value })),
-                  countries: topCountries,
-                }}
-              />
-            )}
+            <div className="heading-actions">
+              <Link className="analysis-button" href={`/editeurs/${editor.slug}/analyses`}>
+                <BookOpenText size={16} />
+                Lire les analyses
+                <ArrowRight size={14} />
+              </Link>
+              {reports.length > 0 && (
+                <ReportDownloadButton
+                  report={{
+                    editor: editor.name,
+                    period: formatPeriod(selectedPeriod),
+                    requestType: service,
+                    country,
+                    metricLabel,
+                    total: currentTotal,
+                    accounts: visiblePeriodReports.reduce((sum, report) => sum + report.accounts, 0),
+                    countryCount: activeCountryCount,
+                    history: trend.map(({ period, value }) => ({ period, value })),
+                    countries: topCountries,
+                    isSimulation,
+                    isCloudAct,
+                  }}
+                />
+              )}
+            </div>
           </section>
+
+          {isSimulation && (
+            <div className="simulation-notice" role="note">
+              <AlertTriangle size={17} aria-hidden="true" />
+              <p>
+                <strong>Données simulées.</strong>{" "}
+                {isCloudAct
+                  ? `Toutes les valeurs CLOUD Act sont fictives et ne proviennent pas des rapports réels de ${editor.name}.`
+                  : `Ces valeurs fictives servent uniquement à tester l’explorateur; elles ne représentent pas les chiffres réels de ${editor.name}.`}
+              </p>
+            </div>
+          )}
 
           {reports.length > 0 ? (
             <>
@@ -410,22 +498,46 @@ export default function Dashboard({
               <div className="insight-orb orb-one" />
               <div className="insight-orb orb-two" />
               <div className="insight-content">
-                <div className="insight-icon"><ShieldCheck size={18} /></div>
-                <div className="section-kicker">À PROPOS DES DONNÉES</div>
-                <h2>Lire les chiffres avec contexte.</h2>
+                <div className="insight-icon">{isCloudAct ? <Cloud size={18} /> : <ShieldCheck size={18} />}</div>
+                <div className="section-kicker">
+                  {isCloudAct
+                    ? "PÉRIMÈTRE CLOUD ACT"
+                    : isSimulation
+                      ? "JEU DE DÉMONSTRATION"
+                      : "À PROPOS DES DONNÉES"}
+                </div>
+                <h2>
+                  {isCloudAct
+                    ? isSimulation
+                      ? "Un tableau de démonstration, pas un rapport officiel."
+                      : "Lire les données CLOUD Act avec contexte."
+                    : isSimulation
+                      ? `Les valeurs de ${editor.name} sont fictives.`
+                      : "Lire les chiffres avec contexte."}
+                </h2>
                 <p>
-                  Les rapports LERR de Microsoft regroupent les demandes légales des autorités.
-                  Les totaux sont recalculés à partir des pays, sans additionner les lignes de
-                  synthèse.
+                  {isCloudAct
+                    ? isSimulation
+                      ? "Ces valeurs sont des exemples fictifs. Elles ne doivent pas être citées comme des données publiées par l’éditeur ni servir à tirer des conclusions juridiques."
+                      : "Ces indicateurs sont calculés à partir du fichier CLOUD Act configuré pour cet éditeur. Consultez les sources et leur périmètre avant toute comparaison."
+                    : isSimulation
+                      ? "Ces données servent à tester l’explorateur. Remplace le fichier de simulation par une source vérifiée avant toute interprétation ou publication."
+                      : "Les rapports LERR de Microsoft regroupent les demandes légales des autorités. Les totaux sont recalculés à partir des pays, sans additionner les lignes de synthèse."}
                 </p>
-                <a
-                  className="insight-link"
-                  href="https://www.microsoft.com/en-us/corporate-responsibility/lerr"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Comprendre les rapports LERR <ArrowRight size={15} />
-                </a>
+                {isSimulation ? (
+                  <a className="insight-link" href="/methodologie">
+                    Consulter la méthode <ArrowRight size={15} />
+                  </a>
+                ) : (
+                  <a
+                    className="insight-link"
+                    href={isCloudAct ? "/methodologie" : "https://www.microsoft.com/en-us/corporate-responsibility/lerr"}
+                    target={isCloudAct ? undefined : "_blank"}
+                    rel={isCloudAct ? undefined : "noreferrer"}
+                  >
+                    {isCloudAct ? "Lire la méthodologie" : "Comprendre les rapports LERR"} <ArrowRight size={15} />
+                  </a>
+                )}
               </div>
             </article>
           </section>
@@ -444,7 +556,13 @@ export default function Dashboard({
 
           <footer className="page-footer">
             <span>TranspaTech <span className="footer-dot">·</span> Explorer les données de transparence</span>
-            <span>{editor.hasData ? "Données Microsoft LERR" : `En attente des données ${editor.name}`}</span>
+            <span>
+              {isCloudAct
+                ? `${isSimulation ? "Simulation " : ""}CLOUD Act · ${editor.name}`
+                : isSimulation
+                  ? `Simulation ${editor.name}`
+                  : "Données Microsoft LERR"}
+            </span>
           </footer>
         </div>
       </div>

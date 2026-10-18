@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Dashboard from "../../components/dashboard";
 import { editors, getEditor } from "../../lib/editors";
-import { loadMicrosoftReports } from "../../lib/reports";
+import { loadEditorReports } from "../../lib/reports";
 
 export function generateStaticParams() {
   return editors.map(({ slug }) => ({ editor: slug }));
@@ -38,7 +38,7 @@ export default async function EditorDashboardPage({
     notFound();
   }
 
-  const reports = editor.slug === "microsoft" ? await loadMicrosoftReports() : [];
+  const reports = await loadEditorReports(editor.slug);
 
   return <Dashboard editor={editor} reports={reports} />;
 }

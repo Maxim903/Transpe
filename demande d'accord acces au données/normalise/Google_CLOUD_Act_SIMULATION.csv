@@ -1,0 +1,9 @@
+Country,Total_Requests,Accounts_Specified,Service_Or_Type,Source_File,Year_Period
+United States,31,42,Content_Data,SIMULATION-Google-CLOUD-Act-2024-H1.csv,2024-H1
+Germany,7,10,Content_Data,SIMULATION-Google-CLOUD-Act-2024-H1.csv,2024-H1
+United States,26,35,Subscriber_Information,SIMULATION-Google-CLOUD-Act-2024-H1.csv,2024-H1
+Germany,5,7,Subscriber_Information,SIMULATION-Google-CLOUD-Act-2024-H1.csv,2024-H1
+United States,36,49,Content_Data,SIMULATION-Google-CLOUD-Act-2024-H2.csv,2024-H2
+Germany,9,13,Content_Data,SIMULATION-Google-CLOUD-Act-2024-H2.csv,2024-H2
+United States,29,40,Subscriber_Information,SIMULATION-Google-CLOUD-Act-2024-H2.csv,2024-H2
+Germany,7,10,Subscriber_Information,SIMULATION-Google-CLOUD-Act-2024-H2.csv,2024-H2

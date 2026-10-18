@@ -57,12 +57,28 @@ function numberFrom(value: string | undefined): number {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
-export async function loadMicrosoftReports(): Promise<ReportRow[]> {
+const reportFilesByEditor: Record<string, string> = {
+  amazon: "Amazon_SIMULATION.csv",
+  apple: "Apple_SIMULATION.csv",
+  google: "Google_SIMULATION.csv",
+  meta: "Meta_SIMULATION.csv",
+  microsoft: "Microsoft_LERR_Master_All.csv",
+};
+
+const cloudActReportFilesByEditor: Record<string, string> = {
+  amazon: "Amazon_CLOUD_Act_SIMULATION.csv",
+  apple: "Apple_CLOUD_Act_SIMULATION.csv",
+  google: "Google_CLOUD_Act_SIMULATION.csv",
+  meta: "Meta_CLOUD_Act_SIMULATION.csv",
+  microsoft: "Microsoft_CLOUD_Act_SIMULATION.csv",
+};
+
+async function loadReportsFromFile(fileName: string): Promise<ReportRow[]> {
   const csvPath = path.join(
     process.cwd(),
     "demande d'accord acces au données",
     "normalise",
-    "Microsoft_LERR_Master_All.csv",
+    fileName,
   );
   const csv = await readFile(csvPath, "utf8");
   const [header = [], ...records] = parseCsv(csv);
@@ -107,4 +123,18 @@ export async function loadMicrosoftReports(): Promise<ReportRow[]> {
   }
 
   return [...uniqueReports.values()];
+}
+
+export function loadEditorReports(editorSlug: string): Promise<ReportRow[]> {
+  const fileName = reportFilesByEditor[editorSlug];
+  return fileName ? loadReportsFromFile(fileName) : Promise.resolve([]);
+}
+
+export function loadCloudActReports(editorSlug: string): Promise<ReportRow[]> {
+  const fileName = cloudActReportFilesByEditor[editorSlug];
+  return fileName ? loadReportsFromFile(fileName) : Promise.resolve([]);
+}
+
+export function loadMicrosoftReports(): Promise<ReportRow[]> {
+  return loadEditorReports("microsoft");
 }

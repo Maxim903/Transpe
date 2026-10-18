@@ -1,0 +1,9 @@
+Country,Total_Requests,Accounts_Specified,Service_Or_Type,Source_File,Year_Period
+United States,246,318,Criminal,SIMULATION-Google-2024-H1.xlsx,2024-H1
+United Kingdom,42,57,Criminal,SIMULATION-Google-2024-H1.xlsx,2024-H1
+United States,38,51,Emergency,SIMULATION-Google-2024-H1.xlsx,2024-H1
+United Kingdom,9,12,Emergency,SIMULATION-Google-2024-H1.xlsx,2024-H1
+United States,271,352,Criminal,SIMULATION-Google-2024-H2.xlsx,2024-H2
+United Kingdom,49,66,Criminal,SIMULATION-Google-2024-H2.xlsx,2024-H2
+United States,45,60,Emergency,SIMULATION-Google-2024-H2.xlsx,2024-H2
+United Kingdom,13,18,Emergency,SIMULATION-Google-2024-H2.xlsx,2024-H2

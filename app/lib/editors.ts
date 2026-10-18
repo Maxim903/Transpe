@@ -1,9 +1,9 @@
 export const editors = [
-  { slug: "amazon", name: "Amazon", hasData: false },
-  { slug: "apple", name: "Apple", hasData: false },
-  { slug: "google", name: "Google", hasData: false },
-  { slug: "meta", name: "Meta", hasData: false },
-  { slug: "microsoft", name: "Microsoft", hasData: true },
+  { slug: "amazon", name: "Amazon", hasData: true, dataStatus: "simulation", cloudActStatus: "simulation" },
+  { slug: "apple", name: "Apple", hasData: true, dataStatus: "simulation", cloudActStatus: "simulation" },
+  { slug: "google", name: "Google", hasData: true, dataStatus: "simulation", cloudActStatus: "simulation" },
+  { slug: "meta", name: "Meta", hasData: true, dataStatus: "simulation", cloudActStatus: "simulation" },
+  { slug: "microsoft", name: "Microsoft", hasData: true, dataStatus: "real", cloudActStatus: "simulation" },
 ] as const;
 
 export type Editor = (typeof editors)[number];

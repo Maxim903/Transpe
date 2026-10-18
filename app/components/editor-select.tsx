@@ -3,7 +3,13 @@
 import { useRouter } from "next/navigation";
 import { editors } from "../lib/editors";
 
-export default function EditorSelect({ value }: { value: string }) {
+export default function EditorSelect({
+  value,
+  context = "editor",
+}: {
+  value: string;
+  context?: "editor" | "cloudAct";
+}) {
   const router = useRouter();
 
   return (
@@ -12,7 +18,13 @@ export default function EditorSelect({ value }: { value: string }) {
       <select
         aria-label="Choisir un éditeur"
         value={value}
-        onChange={(event) => router.push(`/editeurs/${event.target.value}`)}
+        onChange={(event) =>
+          router.push(
+            context === "cloudAct"
+              ? `/cloud-act?editor=${event.target.value}`
+              : `/editeurs/${event.target.value}`,
+          )
+        }
       >
         {editors.map((editor) => (
           <option key={editor.slug} value={editor.slug}>

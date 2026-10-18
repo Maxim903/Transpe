@@ -1,0 +1,9 @@
+Country,Total_Requests,Accounts_Specified,Service_Or_Type,Source_File,Year_Period
+United States,158,207,Criminal,SIMULATION-Meta-2024-H1.xlsx,2024-H1
+Brazil,47,63,Criminal,SIMULATION-Meta-2024-H1.xlsx,2024-H1
+United States,24,31,Emergency,SIMULATION-Meta-2024-H1.xlsx,2024-H1
+Brazil,7,9,Emergency,SIMULATION-Meta-2024-H1.xlsx,2024-H1
+United States,176,232,Criminal,SIMULATION-Meta-2024-H2.xlsx,2024-H2
+Brazil,53,71,Criminal,SIMULATION-Meta-2024-H2.xlsx,2024-H2
+United States,29,39,Emergency,SIMULATION-Meta-2024-H2.xlsx,2024-H2
+Brazil,10,13,Emergency,SIMULATION-Meta-2024-H2.xlsx,2024-H2

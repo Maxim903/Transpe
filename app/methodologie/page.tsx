@@ -90,8 +90,12 @@ export default function MethodologiePage() {
                 key={editor.slug}
               >
                 <span className="methodology-editor-status">
-                  <span className={`status-dot${editor.hasData ? "" : " pending"}`} />
-                  {editor.hasData ? "Rapports intégrés" : "Données à venir"}
+                  <span className={`status-dot${editor.hasData && editor.dataStatus !== "simulation" ? "" : " pending"}`} />
+                  {editor.dataStatus === "simulation"
+                    ? "Données simulées"
+                    : editor.hasData
+                      ? "Rapports intégrés"
+                      : "Données à venir"}
                 </span>
                 <strong>{editor.name}</strong>
                 <span className="methodology-editor-link">

@@ -1,0 +1,9 @@
+Country,Total_Requests,Accounts_Specified,Service_Or_Type,Source_File,Year_Period
+United States,14,19,Content_Data,SIMULATION-Apple-CLOUD-Act-2024-H1.csv,2024-H1
+United Kingdom,3,4,Content_Data,SIMULATION-Apple-CLOUD-Act-2024-H1.csv,2024-H1
+United States,11,15,Subscriber_Information,SIMULATION-Apple-CLOUD-Act-2024-H1.csv,2024-H1
+United Kingdom,2,3,Subscriber_Information,SIMULATION-Apple-CLOUD-Act-2024-H1.csv,2024-H1
+United States,18,24,Content_Data,SIMULATION-Apple-CLOUD-Act-2024-H2.csv,2024-H2
+United Kingdom,5,7,Content_Data,SIMULATION-Apple-CLOUD-Act-2024-H2.csv,2024-H2
+United States,13,18,Subscriber_Information,SIMULATION-Apple-CLOUD-Act-2024-H2.csv,2024-H2
+United Kingdom,4,5,Subscriber_Information,SIMULATION-Apple-CLOUD-Act-2024-H2.csv,2024-H2

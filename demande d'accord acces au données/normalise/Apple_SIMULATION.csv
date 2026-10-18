@@ -1,0 +1,9 @@
+Country,Total_Requests,Accounts_Specified,Service_Or_Type,Source_File,Year_Period
+United States,93,128,Device,SIMULATION-Apple-2024-H1.xlsx,2024-H1
+France,16,22,Device,SIMULATION-Apple-2024-H1.xlsx,2024-H1
+United States,12,17,Emergency,SIMULATION-Apple-2024-H1.xlsx,2024-H1
+France,3,4,Emergency,SIMULATION-Apple-2024-H1.xlsx,2024-H1
+United States,108,149,Device,SIMULATION-Apple-2024-H2.xlsx,2024-H2
+France,20,28,Device,SIMULATION-Apple-2024-H2.xlsx,2024-H2
+United States,15,20,Emergency,SIMULATION-Apple-2024-H2.xlsx,2024-H2
+France,5,7,Emergency,SIMULATION-Apple-2024-H2.xlsx,2024-H2
